@@ -20,6 +20,19 @@ async def get_contacts(limit: int, offset: int, query: str, db: AsyncSession,
     return contacts.scalars().all()
 
 
+async def get_all_contacts(limit: int, offset: int, query: str,
+                           db: AsyncSession):
+    stmt = select(Contact).offset(offset).limit(limit)
+    if query:
+        stmt = stmt.filter(
+            (Contact.name.ilike(f"%{query}%")) |
+            (Contact.lastname.ilike(f"%{query}%")) |
+            (Contact.email.ilike(f"%{query}%"))
+        )
+    contacts = await db.execute(stmt)
+    return contacts.scalars().all()
+
+
 async def get_contact(contact_id: int, db: AsyncSession, user: User):
     stmt = select(Contact).filter_by(id=contact_id, user=user)
     contact = await db.execute(stmt)
@@ -62,7 +75,6 @@ async def delete_contact(contact_id: int, db: AsyncSession, user: User):
         await db.delete(contact)
         await db.commit()
     return contact
-
 
 # async def get_upcoming_birthdays(db: AsyncSession, user: User):
 #     today = datetime.now().date()

@@ -52,7 +52,7 @@ class Auth:
         try:
             payload = jwt.decode(refresh_token, self.SECRET_KEY,
                                  algorithms=[self.ALGORITHM])
-            if payload['score'] != "refresh_token":
+            if payload['score'] == "refresh_token":
                 email = payload["sub"]
                 return email
             raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED,
@@ -71,7 +71,7 @@ class Auth:
         try:
             payload = jwt.decode(token, self.SECRET_KEY,
                                  algorithms=[self.ALGORITHM])
-            if payload['score'] != "access_token":
+            if payload['scope'] == "access_token":
                 email = payload["sub"]
                 if email is None:
                     raise credentials_exception

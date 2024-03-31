@@ -1,5 +1,5 @@
 import contextlib
-
+import logging
 from sqlalchemy.ext.asyncio import AsyncEngine, AsyncSession, \
     async_sessionmaker, create_async_engine
 
@@ -20,9 +20,9 @@ class DatabaseSessionManager:
         session = self._session_maker()
         try:
             yield session
-        except Exception as err:
-            print(err)
+        except:
             await session.rollback()
+            raise
         finally:
             await session.close()
 
@@ -32,4 +32,4 @@ sessionmanager = DatabaseSessionManager(config.DB_URL)
 
 async def get_db():
     async with sessionmanager.session() as session:
-        yield session
+        return session

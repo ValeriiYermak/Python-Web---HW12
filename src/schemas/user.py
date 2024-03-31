@@ -1,7 +1,11 @@
 from pydantic import BaseModel, Field, EmailStr
 from typing import Optional
-# from src.entity.models import Role
 
+from src.entity.models import Role
+
+# class UserRead(schemas.BaseUser[uuid.UUID]):
+#     username: str
+#
 
 class UserSchema(BaseModel):
     username: str = Field(min_length=3, max_length=50)
@@ -14,6 +18,7 @@ class UserResponse(BaseModel):
     username: str
     email: EmailStr
     avatar: str
+    role: Role
 
     class Config:
         from_attributes = True

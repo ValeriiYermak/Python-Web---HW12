@@ -1,6 +1,5 @@
-from fastapi import FastAPI, HTTPException
-
-from fastapi.params import Depends
+from fastapi import FastAPI, HTTPException, Depends
+from fastapi.middleware.cors import CORSMiddleware
 
 from sqlalchemy import text
 from sqlalchemy.ext.asyncio import AsyncSession
@@ -10,6 +9,14 @@ from src.routes import contacts
 from src.routes import auth
 
 app = FastAPI()
+origins = ["*"]
+# app.add_middleware(
+#     CORSMiddleware,
+#     allow_origins=origins,
+#     allow_credentials=True,
+#     allow_methods=["*"],
+#     allow_headers=["*"],)
+
 
 app.include_router(auth.router, prefix="/api")
 app.include_router(contacts.router, prefix="/api")
@@ -23,7 +30,6 @@ def index():
 @app.get("/api/healthchecker")
 async def healthchecker(db: AsyncSession = Depends(get_db)):
     try:
-        # Make request
         result = await db.execute(text("SELECT 1"))
         result = result.fetchone()
         if result is None:
