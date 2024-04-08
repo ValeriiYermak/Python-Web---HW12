@@ -2651,3 +2651,10 @@
 {"ts":1712507831904,"action":"IDE_DEACTIVATED"}
 {"ts":1712507852768,"action":"IDE_ACTIVATED"}
 {"ts":1712507868896,"action":"PROJECT_CLOSED","tags":{"PROJECT_NAME":"Python-Web---HW12"}}
+{"ts":1712565634862,"action":"PROJECT_OPENED","tags":{"PROJECT_NAME":"Python-Web---HW12"}}
+{"ts":1712565689054,"action":"IDE_DEACTIVATED"}
+{"ts":1712566107341,"action":"IDE_ACTIVATED"}
+{"ts":1712566109644,"action":"PROJECT_CLOSED","tags":{"PROJECT_NAME":"Python-Web---HW12"}}
+{"ts":1712567337025,"action":"PROJECT_OPENED","tags":{"PROJECT_NAME":"Python-Web---HW12"}}
+{"ts":1712567359802,"action":"FILE_OPENED","file":"/main.py","tags":{"FILE_LINE_OF_CODE":"43"}}
+{"ts":1712567385477,"action":"FILE_CLOSED","file":"/main.py","tags":{"FILE_LINE_OF_CODE":"43"}}
