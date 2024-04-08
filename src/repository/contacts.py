@@ -7,27 +7,27 @@ from src.entity.models import Contact, User
 from src.schemas.contacts import ContactUpdateSchema, ContactSchema
 
 
-async def get_contacts(limit: int, offset: int, query: str, db: AsyncSession,
-                       user: User):
+async def get_contacts(
+    limit: int, offset: int, query: str, db: AsyncSession, user: User
+):
     stmt = select(Contact).filter_by(user=user).offset(offset).limit(limit)
     if query:
         stmt = stmt.filter(
-            (Contact.name.ilike(f"%{query}%")) |
-            (Contact.lastname.ilike(f"%{query}%")) |
-            (Contact.email.ilike(f"%{query}%"))
+            (Contact.name.ilike(f"%{query}%"))
+            | (Contact.lastname.ilike(f"%{query}%"))
+            | (Contact.email.ilike(f"%{query}%"))
         )
     contacts = await db.execute(stmt)
     return contacts.scalars().all()
 
 
-async def get_all_contacts(limit: int, offset: int, query: str,
-                           db: AsyncSession):
+async def get_all_contacts(limit: int, offset: int, query: str, db: AsyncSession):
     stmt = select(Contact).offset(offset).limit(limit)
     if query:
         stmt = stmt.filter(
-            (Contact.name.ilike(f"%{query}%")) |
-            (Contact.lastname.ilike(f"%{query}%")) |
-            (Contact.email.ilike(f"%{query}%"))
+            (Contact.name.ilike(f"%{query}%"))
+            | (Contact.lastname.ilike(f"%{query}%"))
+            | (Contact.email.ilike(f"%{query}%"))
         )
     contacts = await db.execute(stmt)
     return contacts.scalars().all()
@@ -47,8 +47,9 @@ async def create_contact(body: ContactSchema, db: AsyncSession, user: User):
     return contact
 
 
-async def update_contact(contact_id: int, body: ContactUpdateSchema,
-                         db: AsyncSession, user: User):
+async def update_contact(
+    contact_id: int, body: ContactUpdateSchema, db: AsyncSession, user: User
+):
     stmt = select(Contact).filter_by(id=contact_id, user=user)
     result = await db.execute(stmt)
     contact = result.scalars().first()
@@ -75,6 +76,7 @@ async def delete_contact(contact_id: int, db: AsyncSession, user: User):
         await db.delete(contact)
         await db.commit()
     return contact
+
 
 # async def get_upcoming_birthdays(db: AsyncSession, user: User):
 #     today = datetime.now().date()
